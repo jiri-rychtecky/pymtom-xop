@@ -61,31 +61,28 @@ class MtomAttachment:
         )
         return headers.encode()
 
-    @classmethod
-    def __handle_file_input(cls, file: str | BytesIO, file_name: str | None = None):
+    def __handle_file_input(self, file: str | BytesIO, file_name: str | None = None):
         if isinstance(file, str):
-            cls.__handle_file_as_path(file=file)
+            self.__handle_file_as_path(file=file)
         elif isinstance(file, BytesIO):
             if not file_name:
                 raise ValueError("Error while handling file, file_name must be provided if file is a BytesIO object")
-            cls.__handle_file_as_bytesio(file=file, file_name=file_name)
+            self.__handle_file_as_bytesio(file=file, file_name=file_name)
         else:
             raise TypeError("Error while handling file, file must be a file path (str) or BytesIO object")
         return None
 
-    @classmethod
-    def __handle_file_as_path(cls, file: str):
-        cls.file_path = file
-        cls.file_name = os.path.basename(file)
+    def __handle_file_as_path(self, file: str):
+        self.file_path = file
+        self.file_name = os.path.basename(file)
         with open(file, mode="rb") as f:
-            cls.file_data = f.read()
+            self.file_data = f.read()
         return None
 
-    @classmethod
-    def __handle_file_as_bytesio(cls, file: BytesIO, file_name: str):
-        cls.file_path = None
-        cls.file_name = file_name
-        cls.file_data = file.read()
+    def __handle_file_as_bytesio(self, file: BytesIO, file_name: str):
+        self.file_path = None
+        self.file_name = file_name
+        self.file_data = file.read()
         return None
 
     def __get_content_type(self) -> str:
