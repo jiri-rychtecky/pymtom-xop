@@ -59,8 +59,12 @@ class SoapEnvelope:
             # find element by base64 encoded cid as its text content
             el: _Element = self.__find_elements_by_text(
                 element_tree=el_tree, cid=b64_cid
-            )[0]
+            )
 
+            if not el:
+                continue
+            
+            el = el[0]
             if el is None:
                 continue
 
